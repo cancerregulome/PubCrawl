@@ -1,0 +1,7 @@
+*.iml
+*.log
+*.out
+*.pyc
+
+.idea
+logs

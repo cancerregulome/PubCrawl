@@ -1,0 +1,3 @@
+enos	nitric oxide synthase
+mbp	basic protein
+alp	alkaline phosphatase

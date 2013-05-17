@@ -1,0 +1,14 @@
+tert	tert-butyl
+apc	antigen presenting cell
+bmd	bone mineral density
+cml	chronic myelogenous leukemia,chronic myeloid leukemia
+cea	carotid endarterectomy,central amygdala,cost effectiveness analysis
+crf	corneal resistance factor,chronic renal insufficiency
+arf	acute renal failure
+efs	event free survival
+sptb	spontaneous preterm birth
+pih	pregnancy induced hypertension
+fgr	fetal growth restriction
+aga	appropriate for gestational age
+pfas	perfluorinated acids
+fer	frozen embryo replacement
