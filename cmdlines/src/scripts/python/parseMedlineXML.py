@@ -77,18 +77,15 @@ for deleteCitation in deleteTag:
 	
 	deleteDocs.append(pmid);
 
-for i in range(serverNum):
-	for j in docs:
-		add_element.appendChild(j);
- 	for d in deleteDocs:
-		delete_element.appendChild(d);
-	top_element.appendChild(add_element);
-	top_element.appendChild(delete_element);
-	outFile = codecs.open(sys.argv[3],'w','utf-8');
-	newdoc.writexml(outFile,"","","\n","utf-8");
-	outFile.flush();
-	outFile.close();
-	newdoc = impl.createDocument(None,"update",None);
-	top_element = newdoc.documentElement;
-	add_element = newdoc.createElement("add");
-	delete_element = newdoc.createElement("delete");	
+
+for j in docs:
+	add_element.appendChild(j);
+for d in deleteDocs:
+	delete_element.appendChild(d);
+top_element.appendChild(add_element);
+top_element.appendChild(delete_element);
+outFile = codecs.open(sys.argv[2],'w','utf-8');
+newdoc.writexml(outFile,"","","\n","utf-8");
+outFile.flush();
+outFile.close();
+

@@ -31,6 +31,9 @@ import static org.systemsbiology.cancerregulome.DbUtils.getSolrServer;
 
 /**
  * @author aeakin
+ * Used to determine distances between pairs in the medline solr instance.  Used for initial
+ * NMD distance calculations, DeNovo search, and ad-hoc script for researchers to do queries between
+ * two lists of terms on their own (doesn't have to be drugs).
  */
 public class Pubcrawl {
     private static final Logger log = Logger.getLogger(Pubcrawl.class.getName());

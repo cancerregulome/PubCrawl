@@ -32,6 +32,7 @@ import static org.systemsbiology.cancerregulome.DbUtils.getSolrServer;
 
 /**
  * @author aeakin
+ * Used to determine single counts of terms within the medline solr instance
  */
 public class SingleCountCrawl {
     private static final Logger log = Logger.getLogger(SingleCountCrawl.class.getName());
