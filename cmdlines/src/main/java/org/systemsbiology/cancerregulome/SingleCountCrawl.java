@@ -236,7 +236,7 @@ public class SingleCountCrawl {
             bufReader.close();
         }
 
-        SolrServer[] servers = getSolrServer(solrServerHost);
+        SolrServer server = getSolrServer(solrServerHost);
         String logname = outputFileName + "_log.out";
         //create output files
         FileWriter logFileStream = new FileWriter(logname);
@@ -249,16 +249,11 @@ public class SingleCountCrawl {
         ExecutorService pool = Executors.newFixedThreadPool(32);
         log.info("created threadpool");
         long firstTime = currentTimeMillis();
-        int serverNum=0;
         for (String aTermList : termList) {
             SearchTermAndList searchTermArray = getTermAndTermList(aTermList, useAlias);
-            Callable<SingleCountItem> callable = new SolrCallable(searchTermArray, servers[serverNum], useAlias, filterGrayList, keepGrayList);
+            Callable<SingleCountItem> callable = new SolrCallable(searchTermArray, server, useAlias, filterGrayList, keepGrayList);
             Future<SingleCountItem> future = pool.submit(callable);
             set.add(future);
-            serverNum++;
-            if(serverNum >= servers.length){
-                serverNum=0;
-            }
 
         }
 

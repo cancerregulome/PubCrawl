@@ -273,7 +273,7 @@ public class Pubcrawl {
             bufReader.close();
         }
 
-        SolrServer[] servers = getSolrServer(solrServerHost);
+        SolrServer server = getSolrServer(solrServerHost);
 
         String logname = outputFileName + "_log.out";
         //create output files
@@ -316,27 +316,23 @@ public class Pubcrawl {
             }
         }
 
-        Long totalDocCount = getTotalDocCount(servers[0]);
+        Long totalDocCount = getTotalDocCount(server);
         logFileOut.write("Total doc count: " + totalDocCount);
         Pubcrawl p = new Pubcrawl();
         if (isEmpty(inputFileName)) { //entered term option, just have one to calculate
             SearchTermAndList searchTermArray = getTermAndTermList(searchTerm.trim(), useAlias, false);
-            Long searchTermCount = getTermCount(servers[0], singleCountMap, searchTermArray, filterGrayList, keepGrayList);
+            Long searchTermCount = getTermCount(server, singleCountMap, searchTermArray, filterGrayList, keepGrayList);
 
             ExecutorService pool = Executors.newFixedThreadPool(32);
             Set<Future<NGDItem>> set = new HashSet<Future<NGDItem>>();
             Date firstTime = new Date();
-            int serverNum=0;
+
             for (String secondTerm : term2List) {
                 SearchTermAndList secondTermArray = getTermAndTermList(secondTerm, useAlias, false);
-                long secondTermCount = getTermCount(servers[serverNum], singleCountMap, secondTermArray, filterGrayList, keepGrayList);
+                long secondTermCount = getTermCount(server, singleCountMap, secondTermArray, filterGrayList, keepGrayList);
                 Callable<NGDItem> callable = p.new SolrCallable(searchTermArray, secondTermArray, searchTermCount, secondTermCount, servers[serverNum], useAlias, filterGrayList, keepGrayList,totalDocCount);
                 Future<NGDItem> future = pool.submit(callable);
                 set.add(future);
-                serverNum++;
-                if(serverNum >= servers.length){
-                    serverNum=0;
-                }
             }
 
             for (Future<NGDItem> future : set) {
@@ -357,18 +353,18 @@ public class Pubcrawl {
             BufferedReader bufReader = new BufferedReader(inputReader);
             String fileSearchTerm = bufReader.readLine();
             SearchTermAndList searchTermArray = getTermAndTermList(fileSearchTerm, useAlias, false);
-            Long searchTermCount = getTermCount(servers[0], singleCountMap, searchTermArray, filterGrayList, keepGrayList);
+            Long searchTermCount = getTermCount(server, singleCountMap, searchTermArray, filterGrayList, keepGrayList);
 
             //do this once with a lower amount of threads, in case we are running on a server where new caching is taking place
             ExecutorService pool = Executors.newFixedThreadPool(32);
             List<Future<NGDItem>> set = new ArrayList<Future<NGDItem>>();
             long firstTime = currentTimeMillis();
             int count=0;
-            int serverNum=0;
+
             for (String secondTerm : term2List) {
                 count++;
                 SearchTermAndList secondTermArray = getTermAndTermList(secondTerm, useAlias, false);
-                long secondTermCount = getTermCount(servers[serverNum], singleCountMap, secondTermArray, filterGrayList, keepGrayList);
+                long secondTermCount = getTermCount(server, singleCountMap, secondTermArray, filterGrayList, keepGrayList);
                 Callable<NGDItem> callable = p.new SolrCallable(searchTermArray, secondTermArray, searchTermCount, secondTermCount, servers[serverNum], useAlias, filterGrayList, keepGrayList,totalDocCount);
                 Future<NGDItem> future = pool.submit(callable);
                 set.add(future);
@@ -381,10 +377,7 @@ public class Pubcrawl {
                     count=0;
                     set.clear();
                 }
-                serverNum++;
-                if(serverNum >= servers.length){
-                    serverNum=0;
-                }
+
             }
 
             for (Future<NGDItem> future : set) {
@@ -401,11 +394,11 @@ public class Pubcrawl {
             count=0;
             while (fileSearchTerm != null) {
                 searchTermArray = getTermAndTermList(fileSearchTerm, useAlias, false);
-                searchTermCount = getTermCount(servers[0], singleCountMap, searchTermArray, filterGrayList, keepGrayList);
+                searchTermCount = getTermCount(server, singleCountMap, searchTermArray, filterGrayList, keepGrayList);
                 secondTime = currentTimeMillis();
                 for (String secondTerm : term2List) {
                     SearchTermAndList secondTermArray = getTermAndTermList(secondTerm, useAlias, false);
-                    long secondTermCount = getTermCount(servers[serverNum], singleCountMap, secondTermArray, filterGrayList, keepGrayList);
+                    long secondTermCount = getTermCount(server, singleCountMap, secondTermArray, filterGrayList, keepGrayList);
                     Callable<NGDItem> callable = p.new SolrCallable(searchTermArray, secondTermArray, searchTermCount, secondTermCount, servers[serverNum], useAlias, filterGrayList, keepGrayList,totalDocCount);
                     Future<NGDItem> future = pool.submit(callable);
                     set.add(future);
@@ -418,10 +411,7 @@ public class Pubcrawl {
                         count=0;
                         set.clear();
                     }
-                    serverNum++;
-                if(serverNum >= servers.length){
-                    serverNum=0;
-                }
+
                 }
 
                 for (Future<NGDItem> future : set) {

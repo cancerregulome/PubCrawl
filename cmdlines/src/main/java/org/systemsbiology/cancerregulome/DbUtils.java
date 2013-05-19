@@ -2,7 +2,8 @@ package org.systemsbiology.cancerregulome;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.solr.client.solrj.SolrServer;
-import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.impl.CloudSolrServer;
+import org.apache.solr.client.solrj.impl.LBHttpSolrServer;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -51,22 +52,23 @@ public class DbUtils {
         return null;
     }
 
-    public static SolrServer[] getSolrServer(String solrServerHost) {
+    public static SolrServer getSolrServer(String solrServerHost) {
         try {
+
+            String collection="medline";
             if (isEmpty(solrServerHost)) {
                 Resource r = new FileSystemResource("pubcrawl.properties");
                 Properties prop = new Properties();
                 prop.load(r.getInputStream());
                 solrServerHost = prop.getProperty("solr_server");
+
+                collection = prop.getProperty("solr_collection");
             }
-            String[] servers = solrServerHost.split(",");
-            SolrServer[] serverArray = new SolrServer[servers.length];
-            for(int i =0; i<servers.length; i++){
-                System.out.println("servers: " + servers[i] );
-                SolrServer s =  new CommonsHttpSolrServer("http://" + servers[i]);
-                serverArray[i]=s;
-            }
-            return serverArray;
+            CloudSolrServer cloudServer = new CloudSolrServer(solrServerHost);
+
+
+              cloudServer.setDefaultCollection(collection);
+            return cloudServer;
         } catch (Exception ex) {
             log.warning(ex.getMessage());
             System.exit(1);
