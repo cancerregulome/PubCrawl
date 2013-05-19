@@ -34,23 +34,23 @@ exclude=0;
 for line in geneNameFile:
     if(line.startswith("#")):
         continue;
-	linesplit = line.strip().split("\t");
-	if(linesplit[0].endswith("~withdrawn")): #ignore this one
+    linesplit = line.strip().split("\t");
+    if(linesplit[0].endswith("~withdrawn")): #ignore this one
 		continue;
 
-	termvalue = linesplit[0].strip().lower();
-	if(termvalue in excludeList):
+    termvalue = linesplit[0].strip().lower();
+    if(termvalue in excludeList):
 		exclude=1;
-	else:
+    else:
 		exclude=0;
-	counts_cur.execute("INSERT INTO term_mapping(term_id,term_value, exclude) VALUES ("+str(i)+",\""+termvalue+"\"," + str(exclude) + ")");
-	counts_cur.execute("INSERT INTO term_aliases (alias_id, value, exclude) VALUES ("+str(i)+",\""+termvalue+"\"," + str(exclude) + ")");
+    counts_cur.execute("INSERT INTO term_mapping(term_id,term_value, exclude) VALUES ("+str(i)+",\""+termvalue+"\"," + str(exclude) + ")");
+    counts_cur.execute("INSERT INTO term_aliases (alias_id, value, exclude) VALUES ("+str(i)+",\""+termvalue+"\"," + str(exclude) + ")");
 
-	if(len(linesplit) >= 2):
+    if(len(linesplit) >= 2):
 		if(linesplit[1].strip() != ""):
 			aliasValues=linesplit[1].split(",");
 			if(len(linesplit) >= 3):
-			    if(linesplit(2).strip() != ""):
+			    if(linesplit[2].strip() != ""):
 			        aliasValues=aliasValues+linesplit[2].split(",");
 			insertedValues=[linesplit[0].strip().lower()];
 			for alias in aliasValues:
@@ -64,7 +64,7 @@ for line in geneNameFile:
 						exclude=0;
 					counts_cur.execute("INSERT INTO term_aliases (alias_id, value,exclude) VALUES ("+str(i)+",\""+termvalue+"\"," + str(exclude)+")");
 					insertedValues.append(termvalue);
-	i=i+1;
+    i=i+1;
 geneNameFile.close();
 counts_cur.close();
 			
