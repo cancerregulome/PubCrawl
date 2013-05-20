@@ -51,3 +51,5 @@ CREATE TABLE `term_aliases` (
   `term_alias` varchar(255),
   `alias` tinyint(1) NOT NULL
 );
+
+ALTER TABLE 'term_aliases' ADD CONSTRAINT 'id_fk1' FOREIGN KEY ('alias_id') REFERENCES 'term_mapping' ('term_id') ON DELETE CASCADE ON UPDATE CASCADE;

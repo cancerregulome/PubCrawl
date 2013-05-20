@@ -71,8 +71,7 @@ public class Pubcrawl {
             SolrQuery query = new SolrQuery();
 
             query.setQuery("+text:(*:*)");
-            query.set("qt", "distributed_select");
-            query.addFilterQuery("+pub_date_year:[1990 TO 2012]");
+            query.addFilterQuery("+pub_date_year:[1993 TO 2013]");
             query.setParam("fl", "pmid");
 
             for(int i=0; i< term1Array.size(); i++){
@@ -330,7 +329,7 @@ public class Pubcrawl {
             for (String secondTerm : term2List) {
                 SearchTermAndList secondTermArray = getTermAndTermList(secondTerm, useAlias, false);
                 long secondTermCount = getTermCount(server, singleCountMap, secondTermArray, filterGrayList, keepGrayList);
-                Callable<NGDItem> callable = p.new SolrCallable(searchTermArray, secondTermArray, searchTermCount, secondTermCount, servers[serverNum], useAlias, filterGrayList, keepGrayList,totalDocCount);
+                Callable<NGDItem> callable = p.new SolrCallable(searchTermArray, secondTermArray, searchTermCount, secondTermCount, server, useAlias, filterGrayList, keepGrayList,totalDocCount);
                 Future<NGDItem> future = pool.submit(callable);
                 set.add(future);
             }
@@ -365,7 +364,7 @@ public class Pubcrawl {
                 count++;
                 SearchTermAndList secondTermArray = getTermAndTermList(secondTerm, useAlias, false);
                 long secondTermCount = getTermCount(server, singleCountMap, secondTermArray, filterGrayList, keepGrayList);
-                Callable<NGDItem> callable = p.new SolrCallable(searchTermArray, secondTermArray, searchTermCount, secondTermCount, servers[serverNum], useAlias, filterGrayList, keepGrayList,totalDocCount);
+                Callable<NGDItem> callable = p.new SolrCallable(searchTermArray, secondTermArray, searchTermCount, secondTermCount, server, useAlias, filterGrayList, keepGrayList,totalDocCount);
                 Future<NGDItem> future = pool.submit(callable);
                 set.add(future);
 
@@ -399,7 +398,7 @@ public class Pubcrawl {
                 for (String secondTerm : term2List) {
                     SearchTermAndList secondTermArray = getTermAndTermList(secondTerm, useAlias, false);
                     long secondTermCount = getTermCount(server, singleCountMap, secondTermArray, filterGrayList, keepGrayList);
-                    Callable<NGDItem> callable = p.new SolrCallable(searchTermArray, secondTermArray, searchTermCount, secondTermCount, servers[serverNum], useAlias, filterGrayList, keepGrayList,totalDocCount);
+                    Callable<NGDItem> callable = p.new SolrCallable(searchTermArray, secondTermArray, searchTermCount, secondTermCount, server, useAlias, filterGrayList, keepGrayList,totalDocCount);
                     Future<NGDItem> future = pool.submit(callable);
                     set.add(future);
                     count++;
@@ -448,8 +447,7 @@ public class Pubcrawl {
             //didn't find it in map, so need to go get count
             SolrQuery query = new SolrQuery();
             query.setQuery("+text:(*:*)");
-            query.set("qt", "distributed_select");
-            query.addFilterQuery("+pub_date_year:[1990 TO 2012]");
+            query.addFilterQuery("+pub_date_year:[1993 TO 2013]");
             query.setParam("fl", "pmid");
 
             for(int i=0; i< searchTerms.size(); i++){
@@ -501,8 +499,7 @@ public class Pubcrawl {
 
               SolrQuery query = new SolrQuery();
               query.setQuery("+text:(*:*)");
-              query.set("qt", "distributed_select");
-              query.addFilterQuery("+pub_date_year:[1990 TO 2012]");
+              query.addFilterQuery("+pub_date_year:[1993 TO 2013]");
               query.setParam("fl", "pmid");
 
               try {

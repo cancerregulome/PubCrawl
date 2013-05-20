@@ -60,8 +60,7 @@ public class SingleCountCrawl {
             SingleCountItem totalResults = null;
             SolrQuery query = new SolrQuery();
             query.setQuery("*:*");
-            query.set("qt", "distributed_select");
-            query.addFilterQuery("+pub_date_year:[1990 TO 2012]");
+            query.addFilterQuery("+pub_date_year:[1993 TO 2013]");
             query.setParam("fl", "pmid");
 
             for(int i=0; i< term1Array.size(); i++){
