@@ -43,6 +43,8 @@ CREATE TABLE `term_aliases` (
   `term_id` int(11) NOT NULL,
   `term_value` varchar(255) NOT NULL,
   `exclude` tinyint(1) NOT NULL,
+  `tf` tinyint(1) NOT NULL default '0',
+  `geneLength` int(11) NOT NULL default '300',
   PRIMARY KEY  (`term_id`,`term_value`)
 );
 

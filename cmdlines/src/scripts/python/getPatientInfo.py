@@ -24,12 +24,13 @@ def getGene(geneMap,term):
 def getNode(geneMap,featureid):
 	featureInfo=featureid.split(":");
 	
-	if(featureInfo[1].lower()=="gnab" and featureInfo[7].lower()=="y_n_somatic"):
-		index=featureInfo[2].rpartition("_");
-		if(index[0]==""):
-			return getGene(geneMap,index[2].lower());
-		else:
-			return getGene(geneMap,index[0].lower());
+	if(len(featureInfo) > 7):
+		if(featureInfo[1].lower()=="gnab" and featureInfo[7].lower()=="y_n_somatic"):
+			index=featureInfo[2].rpartition("_");
+			if(index[0]==""):
+				return getGene(geneMap,index[2].lower());
+			else:
+				return getGene(geneMap,index[0].lower());
 
 def processLine(geneMap,line,patientList,outFile):
 	pwInfo=line.strip().split("\t");      
@@ -78,7 +79,7 @@ if __name__ == "__main__":
 
 	#get valid gene names and aliases so we can map them appropriately.  Only load genes for pubcrawl from feature matrices
 	geneMap={}
-	cur.execute("Select value,term_value from term_mapping,term_aliases where term_id=alias_id");
+	cur.execute("Select value,term_value from term_mapping,term_aliases where term_id=alias_id and term_mapping.term_exclude=0");
 	while(1):
 		data=cur.fetchone();
 		if data == None:
