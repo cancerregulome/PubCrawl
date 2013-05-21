@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+     <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pubcrawl</title>
+
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Pontano+Sans|Gentium+Basic' rel='stylesheet' type='text/css'>
+    <link href="css/csacr.css" rel="stylesheet">
+    <link href="css/pubcrawl.css" rel="stylesheet">
+    <link href="css/csacr-responsive.css" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="js/html5.js"></script>
+    <link href="css/csacr.ie.css" rel="stylesheet">
+    <![endif]-->
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-33365261-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+</head>
+<body>
+<div id="mainView"></div>
+<div id="modalDiv" class="modal hide"></div>
+<footer class="navbar-fixed-bottom">
+        <p>
+            &copy; 2012, Institute for Systems Biology, All Rights Reserved
+        </p>
+</footer>
+<script id="PubcrawlAppTemplate" type="text/template">
+    <div class="navbar navbar-fixed-top" id="topNav">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#homePage" onclick="return false;" id="home">
+                <img src="images/isblogo.png" class="imgbrand" alt="Pubcrawl"/> <b>Pubcrawl</b>
+            </a>
+            <div class="nav-collapse">
+                <ul class="nav nav-pills pull-center">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="" onclick="return false;" >
+                            Export
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" >
+                            <li>
+                                <a href="#">Graph</a>
+                                <ul class="dropdown-menu sub-menu">
+                                    <li class="nav-header">Choose a Format</li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">png</a></li>
+                                    <li><a href="#">svg</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Data</a>
+                                 <ul class="dropdown-menu sub-menu">
+                                    <li><a href="#">Nodes</a></li>
+                                    <li><a href="#">Edges</a></li>
+                                    <li><a href="#">Both</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" >
+                        <a class="dropdown-toggle" data-toggle="dropdown"  href="" onclick="return false;" >
+                            About
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="" onclick="return false;">User Guide</a>
+                            </li>
+                            <li>
+                                <a href="" onclick="return false;">Code Project</a>
+                            </li>
+                            <li>
+                                <a href="" onclick="return false;">Funding</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                 <a class="pull-right btn btn-primary" href="http://www.cancerregulome.org" target="_blank">Cancer Regulome</a>
+                <form action="" class="navbar-search pull-left inline-form">
+                    <input type="text" id="querySearchTerm" placeholder="Enter Search Term..." class="search-query span3">
+                    <button class="btn btn-primary" id="queryBtn"><i class="icon-search icon-white"></i></button>
+                </form>
+            </div>
+            <!--/.nav-collapse --> </div>
+    </div>
+</div>
+    <div class="container-fluid dataHeader">
+    <div class="row-fluid dataHeader">
+        <div class="span12">
+<div class="row-fluid">
+        <div class="span3 dataHeader">
+                <form class="form-inline">
+                    <label>Search Term:</label>
+                    <input id="dataHeaderSearchText" type="text" class="input-small" value="" readonly="true">
+                </form>
+            </div>
+            <div class="span3 dataHeader">
+                <form class="form-inline">
+                    <label>Use Alias:</label>
+                    <input id="dataHeaderAliasText" type="text" class="input-small" readonly="true">
+                </form>
+            </div>
+            <div class="span3 dataHeader">
+                <form class="form-inline">
+                    <label>Mode:</label>
+                    <input id="dataHeaderModeText" type="text" class="input-small" value="" readonly="true">
+                </form>
+            </div>
+        </div>
+        </div>
+        </div>
+    </div>
+<div class="container-fluid mainContainer" id="mainContainer">
+        <div class="row-fluid">
+            <div class="span3">
+                <ul class="nav nav-tabs" id="filterTabs">
+                    <li class="active"><a href="#nodeFilter" data-toggle="tab">Nodes</a></li>
+                    <li><a href="#edgeFilter"  data-toggle="tab">Edges</a></li>
+                </ul>
+                <div class="tab-content filtertabcontent">
+                    <div class="tab-pane active" id="nodeFilter"></div>
+                    <div class="tab-pane" id="edgeFilter"></div>
+                </div>
+                <div class="legend">
+
+                </div>
+            </div>
+            <div class="span9">
+                <ul class="nav nav-tabs" id="networkTabs">
+                       <li class="active"><a href="#networkContainer" data-toggle="tab">Graph</a></li>
+                        <li><a href="#nDataTableContainer" data-toggle="tab">Node List</a></li>
+                </ul>
+                <div class="tab-content filtertabcontent">
+                        <div class="tab-pane active" id="networkContainer"></div>
+                        <div class="tab-pane" id="hiveContainer"></div>
+                        <div class="tab-pane" id="nDataTableContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+
+
+<script id="NodeQueryFilterTemplate" type="text/template">
+<div id="graphQueryFilterModal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">x</button>
+        <h3>Term Selection</h3>
+        <div class="form-inline">
+        <label>Total Items Selected: </label><label id="totalItems"></label>
+            <br><label> Must select between 1 and 60 Terms</label>
+            </div>
+        </div>
+    <div class="modal-body queryFilterModal">
+        <ul class="nav nav-tabs" id="modalQueryFilterTabs">
+            <li class="active"><a id="qfHistogramTab" href="#queryFilterHistogramView" data-toggle="tab">Histogram</a></li>
+            <li><a id="qfTableTab" href="#queryFilterTableView" data-toggle="tab">Data Table</a></li>
+            </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="queryFilterHistogramView">
+            </div>
+            <div class="tab-pane queryfiltertable"  id="queryFilterTableView"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" id="closeQueryFilter" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" id="drawNetworkBtn" data-dismiss="modal">Draw Network</button>
+    </div>
+</div>
+</script>
+
+<script id="nodeDetailsTemplate" type="text/template">
+    <div id="nodeDetailsModal">
+        <div class="modal-header">
+            <h3>Node Details</h3>
+        </div>
+        <div id="nodeDetailsModalBody" class="modal-body queryFilterModal">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="closeNodeDetails" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</script>
+
+<script id="edgeDetailsTemplate" type="text/template">
+    <div id="edgeDetailsModal">
+        <div class="modal-header">
+            <h3>Edge Details</h3>
+        </div>
+        <div id="edgeDetailsModalBody" class="modal-body queryFilterModal">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="closeEdgeDetails" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</script>
+
+<script id="queryFilterHistogramTemplate" type="text/template">
+    <form class="well form-inline">
+            <div class="pull-left">
+                <label class="inline" style="font-size:<%= labelSize %>"><%= startLabel %></label>
+                <input type="text" class="<%= textinputclass %>" id="<%= startId %>">
+            </div>
+            <div class="pull-right">
+                <label class="inline" style="font-size:<%= labelSize %>"><%= endLabel %></label>
+                <input type="text" class="<%= textinputclass %>" id="<%= endId %>">
+            </div>
+    </form>
+</script>
+
+
+<script src="js/jquery.js"></script>
+<script src="js/underscore-min.js"></script>
+<script src="js/backbone-min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script type="text/javascript" src="//vis.systemsbiology.net/js/d3/d3.js"></script>
+<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="js/paging.js"></script>
+<script src="js/init.js"></script>
+<script src="js/models/edgeModel.js"></script>
+<script src="js/models/networkModel.js"></script>
+<script src="js/models/nodeModel.js"></script>
+<script src="js/models/nodeQueryModel.js"></script>
+<script src="js/models/nodeDetailsModel.js"></script>
+<script src="js/models/edgeDetailsModel.js"></script>
+<script src="js/views/edgeFilterList.js"></script>
+<script src="js/views/filterItem.js"></script>
+<script src="js/views/histogramFilter.js"></script>
+<script src="js/views/nodeTabTable.js"></script>
+<script src="js/views/edgeTabTable.js"></script>
+<script src="js/views/table.js"></script>
+<script src="js/views/network.js"></script>
+<script src="js/views/hive.js"></script>
+<script src="js/views/nodeFilterList.js"></script>
+<script src="js/views/pubcrawl.js"></script>
+<script src="js/views/queryFilter.js"></script>
+<script src="js/pubcrawl.js"></script>
+
+</body>
+</html>

@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
 	#get valid gene names and aliases so we can map them appropriately.  Only load genes for pubcrawl from feature matrices
 	geneMap={}
-	cur.execute("Select value,term_value from term_mapping,term_aliases where term_id=alias_id and term_mapping.term_exclude=0");
+	cur.execute("Select value,term_value from term_mapping,term_aliases where term_id=alias_id and term_mapping.exclude=0");
 	while(1):
 		data=cur.fetchone();
 		if data == None:

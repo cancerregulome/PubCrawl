@@ -54,4 +54,10 @@ CREATE TABLE `term_aliases` (
   `alias` tinyint(1) NOT NULL
 );
 
+CREATE TABLE `singletermcount_drug` (
+  `term1` varchar(255) NOT NULL default '',
+  `count` int(11) default NULL,
+  PRIMARY KEY  (`term1`)
+);
+
 ALTER TABLE 'term_aliases' ADD CONSTRAINT 'id_fk1' FOREIGN KEY ('alias_id') REFERENCES 'term_mapping' ('term_id') ON DELETE CASCADE ON UPDATE CASCADE;
