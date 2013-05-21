@@ -15,7 +15,47 @@ PC.PubcrawlView =  Backbone.View.extend({
         "networkNodesSelected" : "triggerNetworkLoad",
         "networkFilterChange" : "filterNetwork",
         "nodeClicked"  : "showNodeDetails",
-        "edgeClicked" : "showEdgeDetails"
+        "edgeClicked" : "showEdgeDetails",
+        "deNovoSearch" : "submitDeNovo"
+    },
+
+    submitDeNovo: function(event) {
+        if(this.loadingView == undefined){
+            this.loadingView = new PC.LoadingView();
+        }
+        var that=this;
+        var deNovoModel = new PC.DeNovoModel({searchterm: this.searchTerm});
+        this.$el.append(that.showModal('#loadingDiv', this.loadingView).el.parentNode);
+        deNovoModel.save({
+             label: that.searchTerm + ' [useAlias=false]',
+             useAlias: false
+        }).done(function() {
+
+                that.refreshLoading();
+            });
+    },
+
+    refreshLoading: function() {
+
+        var progress = setInterval(function(){
+            var w=$('.progress').width()/20;
+            var $progress = $('.progress');
+            var w=$progress.width()/20;
+            var $bar = $('.bar');
+            if($bar.width()+w >= $progress.width()){
+                $('#loadingDiv').modal('hide');
+                clearInterval(progress);
+            }
+            else{
+
+                $bar.width($bar.width() + w);
+                $bar.text(Math.round(($bar.width()/$progress.width())*100) + "%");
+
+            }
+
+        },1000);
+
+
     },
 
 	triggerQuery: function(event) {
@@ -97,8 +137,14 @@ PC.PubcrawlView =  Backbone.View.extend({
             var that = this;
 
        		this.nodeQuery.fetch({success: function(model,response) {
+                   if(model.plotData.length > 0){
                    that.queryFilterView = new PC.QueryFilterView({model: model});
                    that.$el.append(that.showModal('#modalDiv', that.queryFilterView).el.parentNode);
+                   }
+                   else { //no item found in db, so prompt denovo search
+                       that.deNovoPromptView = new PC.DeNovoPromptView({});
+                       that.$el.append(that.showModal('#modalDiv', that.deNovoPromptView).el.parentNode);
+                   }
             }});
     },
 

@@ -38,6 +38,7 @@
 <body>
 <div id="mainView"></div>
 <div id="modalDiv" class="modal hide"></div>
+<div id="loadingDiv" class="modal hide"></div>
 <footer class="navbar-fixed-bottom">
         <p>
             &copy; 2012, Institute for Systems Biology, All Rights Reserved
@@ -196,6 +197,34 @@
 </div>
 </script>
 
+<script id="deNovoPromptTemplate" type="text/template">
+    <div id="deNovoPromptModal">
+        <div class="modal-header">
+            <h3>DeNovo</h3>
+        </div>
+        <div id="deNovoPromptModalBody" class="modal-body queryFilterModal">
+            No matching terms were found.  Would you like to start a deNovo search for your term?
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="deNovoPromptYesBtn" data-dismiss="modal">Yes</button>
+            <button class="btn btn-primary" id="deNovoPromptNoBtn" data-dismiss="modal">No</button>
+        </div>
+    </div>
+</script>
+
+<script id="loadingTemplate" type="text/template">
+    <div id="LoadingModal">
+        <div class="modal-header">
+            <h3>Processing...</h3>
+        </div>
+        <div id="LoadingModalBody" class="modal-body queryFilterModal">
+            <div class="progress progress-striped active">
+                <div class="bar" style="width: 0%;"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
 <script id="nodeDetailsTemplate" type="text/template">
     <div id="nodeDetailsModal">
         <div class="modal-header">
@@ -250,6 +279,7 @@
 <script src="js/models/nodeQueryModel.js"></script>
 <script src="js/models/nodeDetailsModel.js"></script>
 <script src="js/models/edgeDetailsModel.js"></script>
+<script src="js/models/deNovoModel.js"></script>
 <script src="js/views/edgeFilterList.js"></script>
 <script src="js/views/filterItem.js"></script>
 <script src="js/views/histogramFilter.js"></script>
@@ -261,6 +291,8 @@
 <script src="js/views/nodeFilterList.js"></script>
 <script src="js/views/pubcrawl.js"></script>
 <script src="js/views/queryFilter.js"></script>
+<script src="js/views/deNovoPrompt.js"></script>
+<script src="js/views/loading.js"></script>
 <script src="js/pubcrawl.js"></script>
 
 </body>
