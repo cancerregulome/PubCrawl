@@ -14,6 +14,8 @@ Backbone.View.prototype.close = function () {
     this.unbind();
 };
 
+Backbone.emulateJSON = true;
+Backbone.emulateHTTP = true;
 /*
 *dataTables related configuration
  */

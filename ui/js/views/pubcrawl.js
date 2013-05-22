@@ -19,16 +19,17 @@ PC.PubcrawlView =  Backbone.View.extend({
         "deNovoSearch" : "submitDeNovo"
     },
 
+
+
     submitDeNovo: function(event) {
         if(this.loadingView == undefined){
             this.loadingView = new PC.LoadingView();
         }
         var that=this;
-        var deNovoModel = new PC.DeNovoModel({searchterm: this.searchTerm});
+        var deNovoModel = new PC.DeNovoModel({searchTerm: this.searchTerm,useAlias: false});
+        app.navigate("",{trigger:false});
         this.$el.append(that.showModal('#loadingDiv', this.loadingView).el.parentNode);
         deNovoModel.save({
-             label: that.searchTerm + ' [useAlias=false]',
-             useAlias: false
         }).done(function() {
 
                 that.refreshLoading();
@@ -38,14 +39,16 @@ PC.PubcrawlView =  Backbone.View.extend({
     refreshLoading: function() {
 
         var progress = setInterval(function(){
-            var w=$('.progress').width()/20;
+
             var $progress = $('.progress');
             var w=$progress.width()/20;
             var $bar = $('.bar');
             if($bar.width()+w >= $progress.width()){
                 $('#loadingDiv').modal('hide');
                 clearInterval(progress);
-            }
+                $bar.width(0);
+                app.navigate("nodes/query/"+ $("#querySearchTerm").val(),{trigger:true});
+               }
             else{
 
                 $bar.width($bar.width() + w);
@@ -53,7 +56,7 @@ PC.PubcrawlView =  Backbone.View.extend({
 
             }
 
-        },1000);
+        },2000);
 
 
     },
@@ -246,3 +249,4 @@ PC.PubcrawlView =  Backbone.View.extend({
     }
 
 });
+

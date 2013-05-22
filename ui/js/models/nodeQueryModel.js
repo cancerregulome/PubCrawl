@@ -1,7 +1,7 @@
 PC.NodeQueryModel = Backbone.Model.extend({
         urlRoot: './hukilau-svc/graphs/pubcrawl/nodes/query',
         url: function(){
-              return this.urlRoot + "?nodeSet=[{name:'" + this.attributes.searchTerm + "'}]&relationshipSet=[{name:'ngd'}]";
+              return this.urlRoot + "?nodeSet=[{name:'" + this.attributes.searchTerm + "'}]&relationshipSet=[{name:'gene_nmd'},{name:'denovo_nmd'}]";
         },
 
         defaults:{
@@ -40,7 +40,7 @@ PC.NodeQueryModel = Backbone.Model.extend({
                         }
                         else{
                             var nodeInfo = td[edge.target];
-                            var nmd = Math.round(edge.ngd * 100)/100;
+                            var nmd = Math.round(edge.nmd * 100)/100;
                             nodeInfo.nmd = nmd;
                             nodeInfo.combocount = edge.combocount;
                             td[edge.target]=nodeInfo;
@@ -50,7 +50,7 @@ PC.NodeQueryModel = Backbone.Model.extend({
                     else{ //didn't equal query value, make sure the target does
                         if(nodeMap[edge.target].toLowerCase() == qv){
                              var nodeInfo = td[edge.source];
-                            var nmd = Math.round(edge.ngd * 100)/100;
+                            var nmd = Math.round(edge.nmd * 100)/100;
                             nodeInfo.nmd = nmd;
                             nodeInfo.combocount = edge.combocount;
                             td[edge.source]=nodeInfo;

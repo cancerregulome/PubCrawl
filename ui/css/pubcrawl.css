@@ -225,12 +225,12 @@ path.link {
   stroke-width: 1.5px;
 }
 
-marker#ngd {
+marker#nmd {
   fill: #D5DF3E;
 }
 
 
-.link.ngd {
+.link.nmd {
   stroke: #1D3FE7;
 }
 

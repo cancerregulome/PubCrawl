@@ -1,7 +1,7 @@
 PC.NetworkModel = Backbone.Model.extend({
         urlRoot: './hukilau-svc/graphs/pubcrawl/relationships/query',
         url: function(){
-              return this.urlRoot + "?nodeSet=" + this.createNodeUrlString() + "&relationshipSet=[{name:'ngd'},{name:'domine'}]";
+              return this.urlRoot + "?nodeSet=" + this.createNodeUrlString() + "&relationshipSet=[{name:'gene_nmd'},{name:'domine'},{name:'denovo_nmd'}]";
         },
 
         initialize: function(data){
@@ -40,12 +40,12 @@ PC.NetworkModel = Backbone.Model.extend({
                         var edge = response.data.edges[index];
                         var nmd;
                         //if this edge is from our searchterm to a target, then get the nmd value and put it into the node object
-                        if(nodeIdMappings[edge.source].name == this.searchterm && edge.ngd != null){
-                            nodeIdMappings[edge.target].nmd = edge.ngd;
+                        if(nodeIdMappings[edge.source].name == this.searchterm && edge.nmd != null){
+                            nodeIdMappings[edge.target].nmd = edge.nmd;
                             nodeIdMappings[edge.target].cc = edge.combocount;
                         }
-                        else if( nodeIdMappings[edge.target].name == this.searchterm && edge.ngd != null){
-                            nodeIdMappings[edge.source].nmd = edge.ngd;
+                        else if( nodeIdMappings[edge.target].name == this.searchterm && edge.nmd != null){
+                            nodeIdMappings[edge.source].nmd = edge.nmd;
                             nodeIdMappings[edge.source].cc = edge.combocount;
                         }
 
@@ -53,7 +53,7 @@ PC.NetworkModel = Backbone.Model.extend({
                         nodeIdMappings[edge.target].linknum++;
 
                         //do this for now, but should change underlying service...
-                        edge.nmd =edge.ngd;
+                        edge.nmd =edge.nmd;
                         edge.cc=edge.combocount;
                         tempEdges.push(edge);
                     }

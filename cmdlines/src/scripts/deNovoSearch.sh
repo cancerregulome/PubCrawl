@@ -16,9 +16,13 @@ echo "Evaluating Inputs for Pubcrawl"
 echo "- inputs:" $1
 
 # Parsing Query String
-saveIFS=$IFS
-IFS='=&'
 parm=($1)
+parm=${parm#"model={"}
+parm=${parm%?}
+
+saveIFS=$IFS
+IFS=',:'
+parm=($parm)
 IFS=$saveIFS
 for ((i=0; i<${#parm[@]}; i+=2))
 do

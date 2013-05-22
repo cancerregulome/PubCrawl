@@ -19,7 +19,7 @@ PC.NodeDetailsModel = Backbone.Model.extend({
         for(var i=0; i< networkModel.edges.length; i++){
             var edge = networkModel.edges.models[i];
             if(edge.source.name == this.node.name){
-                if(edge.relType == "ngd"){
+                if(edge.relType == "gene_nmd"){
 
                     var edgeItem={name: edge.target.name, combocount: edge.combocount, termcount: edge.target.termcount,nmd:edge.nmd};
                     this.nmdDetailsModel.push(edgeItem);
