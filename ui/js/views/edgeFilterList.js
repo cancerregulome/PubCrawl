@@ -4,7 +4,8 @@ PC.EdgeFilterListView = Backbone.View.extend({
     className: 'unstyled',
 
     initialize: function(){
-        this.model.bind("reset", this.render, this);
+        this.model.baseEdges.bind("reset", this.render, this);
+        this.model.dataSetEdges.bind("reset", this.render, this);
     },
 
     events:{
@@ -15,7 +16,8 @@ PC.EdgeFilterListView = Backbone.View.extend({
         $(this.el).trigger('networkFilterChange',{edge:[{attr:"nmd",start:this.nmdFilter.histogramView.filterStart,end:this.nmdFilter.histogramView.filterEnd},
             {attr:"cc",start:this.ccFilter.histogramView.filterStart, end:this.ccFilter.histogramView.filterEnd},
             {attr:"pf1_count",start:this.pdFilter.histogramView.filterStart, end:this.pdFilter.histogramView.filterEnd},
-            {attr:"pf2_count",start:this.pdFilter.histogramView.filterStart, end:this.pdFilter.histogramView.filterEnd}]});
+            {attr:"pf2_count",start:this.pdFilter.histogramView.filterStart, end:this.pdFilter.histogramView.filterEnd},
+            {attr:"pvalue",start:this.pwFilter.histogramView.filterStart, end:this.pwFilter.histogramView.filterEnd}]});
     },
 
     render: function(width,height){
@@ -31,13 +33,25 @@ PC.EdgeFilterListView = Backbone.View.extend({
             xAxis_Label: "Protein Domain Interaction Counts", yAxis_Label: "# of Edges",
             width: width, height: Math.min(height/3,150), selectbarw: 2, textinputclass: "input-mini", labelSize: "10px",axisfontsize: "8px", axislabelfontsize: "10px",
             initialstart: 2};
-        this.nmdFilter = new PC.FilterItemView({model: this.model, filterAtt: {name: ["nmd"], displayName: "NMD"}, histOptions: nmdHistOptions});
+
+        var pwHistOptions = {startLabel: "Start:", endLabel: "End:", startId: "startEdgePW", endId: "endEdgePW",
+            xAxis_Label: "Pairwise -log10(pvalue)", yAxis_Label: "# of Edges",
+            width: width, height: Math.min(height/3,150), selectbarw: 2, textinputclass: "input-mini", labelSize: "10px",axisfontsize: "8px", axislabelfontsize: "10px",
+            initialstart: 6};
+
+        this.nmdFilter = new PC.FilterItemView({model: this.model.baseEdges, filterAtt: {name: ["nmd"], displayName: "NMD"}, histOptions: nmdHistOptions});
         $(this.el).append(this.nmdFilter.render().el);
-        this.ccFilter = new PC.FilterItemView({model: this.model, filterAtt: {name: ["cc"], displayName: "Combo Count"}, histOptions: ccHistOptions});
+
+        this.ccFilter = new PC.FilterItemView({model: this.model.baseEdges, filterAtt: {name: ["cc"], displayName: "Combo Count"}, histOptions: ccHistOptions});
         $(this.el).append(this.ccFilter.render().el);
-        this.pdFilter = new PC.FilterItemView({model: this.model,
+
+        this.pdFilter = new PC.FilterItemView({model: this.model.baseEdges,
             filterAtt: {name:["pf1_count","pf2_count"], displayName: "Protein Domain Interactions"}, histOptions: pdHistOptions});
         $(this.el).append(this.pdFilter.render().el);
+
+        this.pwFilter = new PC.FilterItemView({model: this.model.dataSetEdges, filterAtt: {name: ["pvalue"], displayName: "-log10(pvalue)"}, histOptions: pwHistOptions});
+        $(this.el).append(this.pwFilter.render().el);
+
         return this;
     }
 });

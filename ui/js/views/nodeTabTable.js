@@ -18,12 +18,14 @@ PC.NodeTabTableView = Backbone.View.extend({
             '<li class="active"><a id="qfDocTab" href="#docTableView" data-toggle="tab">Medline Documents</a></li>' +
             '<li><a id="qfNMDTab" href="#nmdTableView" data-toggle="tab">NMD Connections</a></li>' +
             '<li><a id="qfDomineTab" href="#domineTableView" data-toggle="tab">Domine Connections</a></li>' +
+            '<li><a id="qfpwTab" href="#pwTableView" data-toggle="tab">Pairwise Connections</a></li>' +
             '</ul>' +
             '<div class="tab-content">' +
             '<div class="tab-pane active queryfiltertable" id="docTableView"></div>' +
             '<div class="tab-pane queryfiltertable" id="nmdTableView">' +
             '</div>' +
             '<div class="tab-pane queryfiltertable" id="domineTableView"></div>' +
+            '<div class="tab-pane queryfiltertable" id="pwTableView"></div>' +
             '</div>';
 
         this.$el.find("#nodeDetailsModalBody").html(tabs);
@@ -58,6 +60,14 @@ PC.NodeTabTableView = Backbone.View.extend({
         this.domineView = new PC.TableView({dataConfig: dataConfig, checkbox: false, tableId: "domineTable",model: this.model.domineDetailsModel});
         this.$el.find("#domineTableView").html(this.domineView.render().el);
 
+        var pwConfig = [{headerName:'Feature 1', headerWidth: '40%', propName:'term1'},
+            {headerName: 'Feature 2', headerWidth: '40%', propName: 'term2'},
+            {headerName:'-log10(pvalue)', headerWidth: '10%', propName: 'pvalue'},
+            {headerName:'Correlation', headerWidth: '10%', propName: 'correlation'}];
+
+        this.pwView = new PC.TableView({dataConfig: pwConfig, checkbox: false, tableId: "pwTable",model: this.model.pwDetailsModel});
+        this.$el.find("pwTableView").html(this.pwView.render().el);
+
         return this;
     },
 
@@ -65,5 +75,6 @@ PC.NodeTabTableView = Backbone.View.extend({
         this.docView.close();
         this.nmdView.close();
         this.domineView.close();
+        this.pwView.close();
     }
 });

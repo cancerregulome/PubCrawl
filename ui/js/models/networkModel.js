@@ -6,21 +6,42 @@ PC.NetworkModel = Backbone.Model.extend({
 
         initialize: function(data){
             this.nodes=data.nodes;
-            this.searchterm = data.searchterm;
+            this.searchterm = data.searchTerm;
+            this.dataSet = data.dataSet;
+            this.dataSetModel = new PC.DataSetModel({dataSet:this.dataSet,nodes:this.nodes,searchTerm:this.searchterm});
         },
         createNodeUrlString: function(){
             var nodeSetString = "[";
 
             for(var i=0; i< this.nodes.length; i++){
-                nodeSetString = nodeSetString + "{name:'" + this.nodes[i].name + "'},";
+                nodeSetString = nodeSetString + "{name:'" + encodeURIComponent(this.nodes[i].name) + "'},";
             }
             nodeSetString = nodeSetString.substring(0,nodeSetString.length-1) + "]";
             return nodeSetString;
         },
 
+        retrieveData: function(callback){
+            var that=this;
+            var baseReturn=false;
+            var datasetReturn=false;
+            this.dataSetModel.fetch({success: function(model,response) {
+                that.dataSetEdges=model.edges;
+                datasetReturn=true;
+                if(datasetReturn && baseReturn){
+                    callback();
+                }
+            }});
+            this.fetch({success: function(model,response) {
+                baseReturn=true;
+                if(datasetReturn && baseReturn){
+                    callback();
+                }
+            }});
+        },
+
         parse: function(response){
             //need to retrieve the edges
-            this.edges=new PC.EdgeCollection();
+            this.baseEdges=new PC.EdgeCollection();
             this.nodes=new PC.NodeCollection();
             var nodeIdMappings={};
             var tempEdges=[];
@@ -32,6 +53,8 @@ PC.NetworkModel = Backbone.Model.extend({
                     if(node.name == this.searchterm){
                         node.nmd=0;
                         node.cc = response.data.nodes[i].termcount;
+                        node.x=0;
+                        node.y=0;
 
                     }
                          nodeIdMappings[response.data.nodes[i].id] = node;
@@ -55,24 +78,13 @@ PC.NetworkModel = Backbone.Model.extend({
                         //do this for now, but should change underlying service...
                         edge.nmd =edge.nmd;
                         edge.cc=edge.combocount;
-                        tempEdges.push(edge);
+                        edge.source=nodeIdMappings[edge.source].name;
+                        edge.target = nodeIdMappings[edge.target].name;
+                        this.baseEdges.add(edge);
                     }
 
                 for(var key in nodeIdMappings){
                      this.nodes.add(nodeIdMappings[key]);
-                }
-
-                //now have edges and nodes collections, but now need to map the node models onto the edge target and source
-                nodeIDMappings={};
-                var nodeMap={};
-                for( var item in this.nodes.models){
-                    nodeMap[this.nodes.models[item].id]=this.nodes.models[item];
-                }
-                for(var i=0; i< tempEdges.length; i++){
-                    var item = tempEdges[i];
-                    item.source = nodeMap[item.source];
-                    item.target = nodeMap[item.target];
-                    this.edges.add(item);
                 }
 
             }

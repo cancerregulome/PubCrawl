@@ -27,8 +27,12 @@ IFS=$saveIFS
 for ((i=0; i<${#parm[@]}; i+=2))
 do
   echo "- parm: ${parm[i+1]}" 
-  declare var_${parm[i]}="${parm[i+1]}"
-  echo "-var: var_${parm[i]}"
+  varm=${parm[i]#?}
+  varm2=${varm%?}
+  varm3=${parm[i+1]#"\""}
+  varm4=${varm3%"\""}
+  declare var_$varm2="$varm4"
+  echo "-var: var_$varm4"
 done
 
 echo "Parameters"
@@ -53,7 +57,7 @@ if [ $var_useAlias == 'true' ]; then
      /tools/java/jdk/bin/java -jar /titan/cancerregulome9/workspaces/pubcrawl/pubcrawl-jar-with-dependencies.jar -a -term "$var_searchTerm" -o "${var_searchTerm}".out
     
      echo "Executing DB Insertion Script: insertNGDItems"
-     cp "${var_searchTerm}".out /local/neo4j-deNovo/deNovo.out
+     cp "${var_searchTerm}".out /titan/cancerregulome9/workspaces/pubcrawl/"${var_searchTerm}".out 
      /tools/bin/python2.7 /titan/cancerregulome9/workspaces/pubcrawl/insertDenovoNMD.py "${var_searchTerm}" true
 
 else
@@ -75,7 +79,7 @@ else
      /tools/java/jdk/bin/java -jar /titan/cancerregulome9/workspaces/pubcrawl/pubcrawl-jar-with-dependencies.jar -term "$var_searchTerm" -o "${var_searchTerm}".out
 
      echo "Executing DB Insertion Script: insertDenovoNGD.py"
-     cp "${var_searchTerm}".out /local/neo4j-deNovo/deNovo.out
+     cp "${var_searchTerm}".out /titan/cancerregulome9/workspaces/pubcrawl/"${var_searchTerm}".out 
      /tools/bin/python2.7 /titan/cancerregulome9/workspaces/pubcrawl/insertDenovoNMD.py "${var_searchTerm}" false
 
 fi

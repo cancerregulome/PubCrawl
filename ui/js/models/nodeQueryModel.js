@@ -1,7 +1,7 @@
 PC.NodeQueryModel = Backbone.Model.extend({
         urlRoot: './hukilau-svc/graphs/pubcrawl/nodes/query',
         url: function(){
-              return this.urlRoot + "?nodeSet=[{name:'" + this.attributes.searchTerm + "'}]&relationshipSet=[{name:'gene_nmd'},{name:'denovo_nmd'}]";
+              return this.urlRoot + "?nodeSet=[{name:'" + encodeURIComponent(this.attributes.searchTerm) + "'}]&relationshipSet=[{name:'gene_nmd'},{name:'denovo_nmd'}]";
         },
 
         defaults:{

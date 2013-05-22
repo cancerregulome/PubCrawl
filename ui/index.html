@@ -39,6 +39,7 @@
 <div id="mainView"></div>
 <div id="modalDiv" class="modal hide"></div>
 <div id="loadingDiv" class="modal hide"></div>
+<iframe id="frame" height=0 width=0></iframe>
 <footer class="navbar-fixed-bottom">
         <p>
             &copy; 2012, Institute for Systems Biology, All Rights Reserved
@@ -65,46 +66,20 @@
                         </a>
                         <ul class="dropdown-menu" >
                             <li>
-                                <a href="#">Graph</a>
-                                <ul class="dropdown-menu sub-menu">
-                                    <li class="nav-header">Choose a Format</li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">png</a></li>
-                                    <li><a href="#">svg</a></li>
-                                </ul>
-                            </li>
-                            <li>
                                 <a href="#">Data</a>
                                  <ul class="dropdown-menu sub-menu">
-                                    <li><a href="#">Nodes</a></li>
-                                    <li><a href="#">Edges</a></li>
-                                    <li><a href="#">Both</a></li>
+                                    <li><a href="#" id="exportNodeBtn">Nodes</a></li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
-                    <li class="dropdown" >
-                        <a class="dropdown-toggle" data-toggle="dropdown"  href="" onclick="return false;" >
-                            About
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="" onclick="return false;">User Guide</a>
-                            </li>
-                            <li>
-                                <a href="" onclick="return false;">Code Project</a>
-                            </li>
-                            <li>
-                                <a href="" onclick="return false;">Funding</a>
-                            </li>
-                        </ul>
-                    </li>
+
                 </ul>
                  <a class="pull-right btn btn-primary" href="http://www.cancerregulome.org" target="_blank">Cancer Regulome</a>
                 <form action="" class="navbar-search pull-left inline-form">
                     <input type="text" id="querySearchTerm" placeholder="Enter Search Term..." class="search-query span3">
                     <button class="btn btn-primary" id="queryBtn"><i class="icon-search icon-white"></i></button>
+                    <a href="" id="advancedSearchLink">Advanced Search</a>
                 </form>
             </div>
             <!--/.nav-collapse --> </div>
@@ -128,8 +103,8 @@
             </div>
             <div class="span3 dataHeader">
                 <form class="form-inline">
-                    <label>Mode:</label>
-                    <input id="dataHeaderModeText" type="text" class="input-small" value="" readonly="true">
+                    <label>DataSet:</label>
+                    <input id="dataHeaderDataSetText" type="text" class="input-medium" value="" readonly="true">
                 </form>
             </div>
         </div>
@@ -195,6 +170,48 @@
         <button class="btn btn-primary" id="drawNetworkBtn" data-dismiss="modal">Draw Network</button>
     </div>
 </div>
+</script>
+
+<script id="AdvancedQueryTemplate" type="text/template">
+    <div id="advancedQueryModal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">x</button>
+            <h3>Advanced Query</h3>
+        </div>
+        <div class="modal-body queryFilterModal">
+            <ul class="nav nav-tabs" id="advancedQueryTabs">
+                <li class="active"><a id="qfadvancedQueryTab" href="#advancedQueryView" data-toggle="tab">Query</a></li>
+                <li><a id="qfdeNovoTableTab" href="#deNovoTableView" data-toggle="tab">Completed Searches</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="advancedQueryView">
+                    <div class="dataHeader">
+                        <form class="form-horizontal">
+                            <div class="control-group">
+                                <label class="control-label" for="advancedSearchText">Search Term</label>
+                                <div class="controls">
+                                    <input id="advancedSearchText" type="text" class="input-medium" placeholder="Enter Search Text..." >
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="dataSetSelect">DataSet</label>
+                                <div class="controls">
+                                    <select id="dataSetSelect">
+                                        <option>Breast Cancer Manuscript</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane queryfiltertable"  id="deNovoTableView"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="CancelAdvancedQuery" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-primary" id="SubmitAdvancedQueryBtn" data-dismiss="modal">Submit</button>
+        </div>
+    </div>
 </script>
 
 <script id="deNovoPromptTemplate" type="text/template">
@@ -275,11 +292,13 @@
 <script src="js/init.js"></script>
 <script src="js/models/edgeModel.js"></script>
 <script src="js/models/networkModel.js"></script>
+<script src="js/models/dataSetModel.js"></script>
 <script src="js/models/nodeModel.js"></script>
 <script src="js/models/nodeQueryModel.js"></script>
 <script src="js/models/nodeDetailsModel.js"></script>
 <script src="js/models/edgeDetailsModel.js"></script>
 <script src="js/models/deNovoModel.js"></script>
+<script src="js/models/advancedQueryModel.js"></script>
 <script src="js/views/edgeFilterList.js"></script>
 <script src="js/views/filterItem.js"></script>
 <script src="js/views/histogramFilter.js"></script>
@@ -292,6 +311,7 @@
 <script src="js/views/pubcrawl.js"></script>
 <script src="js/views/queryFilter.js"></script>
 <script src="js/views/deNovoPrompt.js"></script>
+<script src="js/views/advancedQuery.js"></script>
 <script src="js/views/loading.js"></script>
 <script src="js/pubcrawl.js"></script>
 
