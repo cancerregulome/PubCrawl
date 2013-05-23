@@ -29,8 +29,6 @@
         events: {
             "click button.close": "close",
             "click button.#CancelAdvancedQuery": "close",
-            "click [data-toggle='tab']": "updateItemsSelected",
-            "tableSelectionChange": "updateItemsSelected",
             "click button.#SubmitAdvancedQueryBtn": "triggerQuery",
             "show #qfdeNovoTableTab": "showTable"
 
@@ -39,22 +37,16 @@
 
         updateItemsSelected: function(event){
 
-            if(event != undefined && (event.currentTarget.id == "qfdeNovoTableTab" || event.type=="tableSelectionChange")){
-               this.searchTerm = this.getDataTableSelected();
 
-
-            }
-            else{
                 this.searchTerm=$("#advancedSearchText").val();
                 this.dataSet=$("#dataSetSelect option:selected").val();
                 this.useAlias=false;
 
-            }
 
         },
 
         triggerQuery: function(event){
-
+            this.updateItemsSelected();
             $(this.el).trigger("triggerAdvancedSearch",this);
 
         },
@@ -64,14 +56,6 @@
                 this.tableView.oTable.fnAdjustColumnSizing();
 
             }
-
-        },
-
-
-        getDataTableSelected: function(){
-            var that = this;
-
-            return this.tableView.oTable.fnGetData(this.parentNode.parentNode).name;
 
         },
 

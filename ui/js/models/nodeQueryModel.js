@@ -11,14 +11,13 @@ PC.NodeQueryModel = Backbone.Model.extend({
         },
 
         parse: function(response){
+            var pd=[];
+            var td={};
+            var tdFinal=[];
+            var nodeMap={};
+            var qv = this.get("searchTerm").toLowerCase();
             //need to retrieve the nodes from the query
-            if(response.data != null && response.data.edges != null){
-                var pd=[];
-                var td={};
-                var tdFinal=[];
-                var nodeMap={};
-                var qv = this.get("searchTerm").toLowerCase();
-
+            if(response.data != null && response.data.nodes != null){
                 for(var i in response.data.nodes){
                     var node= response.data.nodes[i];
                     nodeMap[node.id]=node.name;
@@ -29,6 +28,9 @@ PC.NodeQueryModel = Backbone.Model.extend({
                         this.searchData={"name":node.name,"alias":node.aliases,"termcount":node.termcount,"termcount_alias":node.termcount_alias,"nodeType": node.nodeType};
                     }
                 }
+            }
+            if(response.data != null && response.data.edges != null){
+
                 for(var e in response.data.edges){
                     var edge = response.data.edges[e];
                     if(nodeMap[edge.source].toLowerCase() == qv){
@@ -62,16 +64,14 @@ PC.NodeQueryModel = Backbone.Model.extend({
 
                     }
                 }
-
-                for(item in td){
-                    tdFinal.push(td[item]);
-                    pd.push(td[item].nmd);
-                }
-
-                this.plotData=pd;
-                this.tableData = tdFinal;
-                return;
             }
+            for(item in td){
+                tdFinal.push(td[item]);
+                pd.push(td[item].nmd);
+            }
+
+            this.plotData=pd;
+            this.tableData = tdFinal;
             return;
         }
 

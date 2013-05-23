@@ -62,24 +62,20 @@ PC.PubcrawlView =  Backbone.View.extend({
     refreshLoading: function() {
 
         var progress = setInterval(function(){
-
             var $progress = $('.progress');
-            var w=$progress.width()/20;
             var $bar = $('.bar');
-            if($bar.width()+w >= $progress.width()){
+            if($bar.width() >= $progress.width()){
                 $('#loadingDiv').modal('hide');
                 clearInterval(progress);
-                $bar.width(0);
                 app.navigate("nodes/query/"+ $("#querySearchTerm").val(),{trigger:true});
                }
             else{
-
-                $bar.width($bar.width() + w);
+                $bar.width($bar.width()+40);
                 $bar.text(Math.round(($bar.width()/$progress.width())*100) + "%");
 
             }
 
-        },2000);
+        },3500);
 
 
     },
@@ -194,7 +190,11 @@ PC.PubcrawlView =  Backbone.View.extend({
                    that.queryFilterView = new PC.QueryFilterView({model: model});
                    that.$el.append(that.showModal('#modalDiv', that.queryFilterView).el.parentNode);
                    }
-                   else { //no item found in db, so prompt denovo search
+                   else if(model.searchData != undefined){    //no items were related to this search term.
+                       that.noRelationshipsView = new PC.NoRelationshipsView({});
+                        that.$el.append(that.showModal('#modalDiv',that.noRelationshipsView).el.parentNode)
+                   }
+                   else{ //no item found in db, so prompt denovo search
                        that.deNovoPromptView = new PC.DeNovoPromptView({});
                        that.$el.append(that.showModal('#modalDiv', that.deNovoPromptView).el.parentNode);
                    }
