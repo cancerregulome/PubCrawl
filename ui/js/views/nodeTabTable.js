@@ -66,7 +66,7 @@ PC.NodeTabTableView = Backbone.View.extend({
             {headerName:'Correlation', headerWidth: '10%', propName: 'correlation'}];
 
         this.pwView = new PC.TableView({dataConfig: pwConfig, checkbox: false, tableId: "pwTable",model: this.model.pwDetailsModel});
-        this.$el.find("pwTableView").html(this.pwView.render().el);
+        this.$el.find("#pwTableView").html(this.pwView.render().el);
 
         return this;
     },

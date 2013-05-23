@@ -1,0 +1,36 @@
+PC.AdvancedQueryModel = Backbone.Model.extend({
+    urlRoot: './hukilau-svc/graphs/pubcrawl/nodes',
+
+    defaults:{
+        tableData: []
+    },
+
+    setQueryType: function(deNovo){
+        if(deNovo)
+            this.url= this.urlRoot + "?filter=[{'prop':'nodeType','value':'deNovo'}]";
+        else
+            this.url='./hukilau-svc/graphs/';
+    },
+
+    parse: function(response){
+        //need to retrieve the nodes from the query
+        if(response.data != null && response.data.nodes != null){
+            var pd=[];
+
+            for(var i in response.data.nodes){
+                pd.push(response.data.nodes[i]);
+            }
+
+            this.tableData = pd;
+            return;
+        }
+        else{ //this is the dataSetList
+
+            this.dataSetList=[{"label":"brca_pw_manuscript","description":"Breast Cancer Manuscript"}];
+        }
+        return;
+    }
+
+
+
+});

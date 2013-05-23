@@ -42,21 +42,11 @@ PC.PubcrawlView =  Backbone.View.extend({
     },
 
     submitDeNovoAdvanced: function(event,data) {
-        if(this.loadingView == undefined){
-            this.loadingView = new PC.LoadingView();
-        }
-        var that=this;
+
         this.useAlias=data.useAlias;
         this.searchTerm=data.searchTerm;
         this.dataSet=data.dataSet;
-        var deNovoModel = new PC.DeNovoModel({searchTerm: this.searchTerm,useAlias:this.useAlias});
-        app.navigate("",{trigger:false});
-        this.$el.append(that.showModal('#loadingDiv', this.loadingView).el.parentNode);
-        deNovoModel.save({
-        }).done(function() {
-
-                that.refreshLoading();
-            });
+        this.queryNode(this.searchTerm);
     },
 
     refreshLoading: function() {
