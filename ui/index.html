@@ -79,7 +79,7 @@
                 <form action="" class="navbar-search pull-left inline-form">
                     <input type="text" id="querySearchTerm" placeholder="Enter Search Term..." class="search-query span3">
                     <button class="btn btn-primary" id="queryBtn"><i class="icon-search icon-white"></i></button>
-                    <a href="" id="advancedSearchLink">Advanced Search</a>
+                    <a href="#" id="advancedSearchLink">Advanced Search</a>
                 </form>
             </div>
             <!--/.nav-collapse --> </div>
@@ -185,24 +185,21 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="advancedQueryView">
-                    <div class="dataHeader">
                         <form class="form-horizontal">
                             <div class="control-group">
                                 <label class="control-label" for="advancedSearchText">Search Term</label>
                                 <div class="controls">
-                                    <input id="advancedSearchText" type="text" class="input-medium" placeholder="Enter Search Text..." >
+                                    <input id="advancedSearchText" type="text" class="input-large" placeholder="Enter Search Text..." >
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label" for="dataSetSelect">DataSet</label>
                                 <div class="controls">
                                     <select id="dataSetSelect">
-                                        <option>Breast Cancer Manuscript</option>
                                     </select>
                                 </div>
                             </div>
                         </form>
-                    </div>
                 </div>
                 <div class="tab-pane queryfiltertable"  id="deNovoTableView"></div>
             </div>

@@ -1,20 +1,21 @@
 PC.AdvancedQueryModel = Backbone.Model.extend({
     urlRoot: './hukilau-svc/graphs/pubcrawl/nodes',
+
     url: function(){
-        if(this.deNovo){
-            return this.urlRoot + "?filter=[{prop:'nodeType',value:'deNovo'}]";
+        if(this.denovo){
+        return this.urlRoot + "?filter=[{prop:'nodeType',value:'deNovo'}]";
         }
-        else
-            return './hukilau-svc/graphs/';
+        else{
+            return './hukilau-svc/graphs';
+        }
     },
     defaults:{
         tableData: []
     },
 
-
-    setQueryType: function(deNovo){
-       this.deNovo=deNovo;
-    },
+    setDenovo: function(denovo){
+    this.denovo=denovo;
+},
 
     parse: function(response){
         //need to retrieve the nodes from the query
@@ -28,9 +29,8 @@ PC.AdvancedQueryModel = Backbone.Model.extend({
             this.tableData = pd;
             return;
         }
-        else{ //this is the dataSetList
-
-            this.dataSetList=[{"label":"brca_pw_manuscript","description":"Breast Cancer Manuscript"}];
+        else{
+            this.dataSetList=response.items;
         }
         return;
     }

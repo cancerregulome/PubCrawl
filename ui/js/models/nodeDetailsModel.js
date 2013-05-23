@@ -18,8 +18,9 @@ PC.NodeDetailsModel = Backbone.Model.extend({
                 break;
             }
         }
-        for(var i=0; i< networkModel.edges.length; i++){
-            var edge = networkModel.edges.models[i];
+        for(var i=0; i< networkModel.baseEdges.length; i++){
+
+            var edge = networkModel.baseEdges.models[i];
             if(edge.source.name == this.node.name){
                 if(edge.relType == "gene_nmd" || edge.relType == "denovo_nmd"){
 
@@ -36,15 +37,30 @@ PC.NodeDetailsModel = Backbone.Model.extend({
                     this.pwDetailsModel.push(edgeItem);
                 }
             }
-            else if(edge.target.name == this.node.name){
-                //don't need to do ngd here, since it is currently doubled, should be able to also remove domine once it is doubled correctly
-                if(edge.relType == "domine"){
-                    var edgeItem={term1: edge.target.name, term2: edge.source.name, pf1: edge.pf1, pf2: edge.pf2,
+
+        }
+        for(var i=0; i< networkModel.dataSetEdges.length; i++){
+
+            var edge = networkModel.dataSetEdges.models[i];
+            if(edge.source.name == this.node.name){
+                if(edge.relType == "gene_nmd" || edge.relType == "denovo_nmd"){
+
+                    var edgeItem={name: edge.target.name, combocount: edge.combocount, termcount: edge.target.termcount,nmd:edge.nmd};
+                    this.nmdDetailsModel.push(edgeItem);
+                }
+                else if(edge.relType == "domine"){
+                    var edgeItem={term1: edge.source.name, term2: edge.target.name, pf1: edge.pf1, pf2: edge.pf2,
                         pf1_count: edge.pf1_count, pf2_count: edge.pf2_count, type: edge.type, uni1: edge.uni1, uni2: edge.uni2};
                     this.domineDetailsModel.push(edgeItem);
                 }
+                else if(edge.relType == "pairwise"){
+                    var edgeItem={term1: edge.featureid1, term2:edge.featureid2,pvalue:edge.pvalue,correlation:edge.correlation};
+                    this.pwDetailsModel.push(edgeItem);
+                }
             }
+
         }
+
 
     },
 

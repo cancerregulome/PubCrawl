@@ -225,14 +225,19 @@ PC.PubcrawlView =  Backbone.View.extend({
     showAdvancedQuery: function(event, item){
         var thisDetails = this;
         this.advancedQueryDetails = new PC.AdvancedQueryModel();
-        this.advancedQueryDetails.setQueryType(true);
-        this.advancedQueryDetails.fetch({success: function(model, response){
-            thisDetails.advancedQueryDetails.setQueryType(false);
-            thisDetails.advancedQueryDetails.fetch({success: function(model,response){
-                thisDetails.advancedQueryView = new PC.AdvancedQueryView({model:model});
-                thisDetails.$el.append(thisDetails.showModal('#modalDiv', thisDetails.advancedQueryView).el.parentNode);
+       // this.dataSetList=[{label:"brca_pw_manuscript",description:"Breast Cancer Manuscript"},
+           // {label:"test",description:"test descript"}];
+        this.advancedQueryDetails.setDenovo(true);
+        this.advancedQueryDetails.fetch({success: function(model,response){
+            thisDetails.advancedQueryDetails.setDenovo(false);
+            var thatDetails=thisDetails;
+            thisDetails.advancedQueryDetails.fetch({success: function(model, response){
+                thatDetails.advancedQueryView = new PC.AdvancedQueryView({model:model,dataSetList:model.dataSetList});
+                thatDetails.$el.append(thatDetails.showModal('#modalDiv', thatDetails.advancedQueryView).el.parentNode);
             }})
-            }})
+
+        }})
+
     },
 
     queryNodeAndSelect: function(selectionLength){

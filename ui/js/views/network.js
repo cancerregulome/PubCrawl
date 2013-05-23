@@ -39,7 +39,7 @@ PC.NetworkView = Backbone.View.extend({
         var line = svg.append("svg:g").selectAll("line.link")
             .data(force.links())
         .enter().append("line")
-            .attr("class", function(d) { return "link." + d.relType; })
+            .attr("class", function(d) { return "link " + d.relType; })
             .attr("x1", function(d){ return d.source.x;})
             .attr("y1", function(d){ return d.source.y;})
             .attr("x2", function(d){ return d.target.x;})

@@ -1,10 +1,13 @@
  PC.AdvancedQueryView = Backbone.View.extend({
         template: _.template($("#AdvancedQueryTemplate").html()),
 
-        initialize: function() {
+        initialize: function(data) {
             this.$el.html(this.template());
             var dataOptions={label:"brca_pw_manuscript",description:"Breast Cancer Manuscript"}
-            $("#DataSetSelect").options(this.model.dataSetList);
+            this.$el.find("#dataSetSelect").empty();
+            for(var i in data.dataSetList){
+                this.$el.find("#dataSetSelect").append($("<option></option>").val(data.dataSetList[i].label).html(data.dataSetList[i].name));
+            }
 
         },
 
@@ -43,7 +46,7 @@
             }
             else{
                 this.searchTerm=$("#advancedSearchText").val();
-                this.dataSet=$("dataSetSelect").val();
+                this.dataSet=$("#dataSetSelect option:selected").val();
                 this.useAlias=false;
 
             }

@@ -230,18 +230,18 @@ marker#nmd {
 }
 
 
- line.link.gene_nmd,line.link.denovo_nmd {
+.link.gene_nmd,.link.denovo_nmd {
   stroke: #1D3FE7;
 }
 
-line.link.domine {
+.link.domine {
   stroke-dasharray: 0,3 1;
   stroke-width: 3px;
   stroke:#AC0035;
 }
 
- line.link.pairwise {
-     stroke: #1DFF0E;
+.link.pairwise {
+     stroke: #005B00;
  }
 
 text {
