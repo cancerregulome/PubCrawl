@@ -17,12 +17,7 @@
 
 }
 
- .bar {
-     -webkit-transition: width 30.0s ease !important;
-     -moz-transition: width 30.0s ease !important;
-     -o-transition: width 30.0s ease !important;
-     transition: width 30.0s ease !important;
- }
+
 
 .nav-tabs .dropdown-menu, .nav-pills .dropdown-menu, .navbar .dropdown-menu {
     margin-top: 0;
