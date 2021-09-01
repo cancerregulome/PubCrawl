@@ -102,7 +102,7 @@
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j</artifactId>
-            <version>1.9.RC2</version>
+            <version>3.5.0</version>
         </dependency>
         <dependency>
             <artifactId>solr-solrj</artifactId>
